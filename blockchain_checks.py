@@ -42,8 +42,9 @@ class blockchain_checks:
                 potential_escrow_tx=self.bu.get_tx(potential_escrow_txid)
                 # observe the outputs of each of the above
                 if self.is_escrow(potential_escrow_txid):
+                    escrow_epoch = potential_escrow_tx['blocktime']
                     details_log=str(potential_escrow_tx['blockheight'])+' '+ datetime.datetime.fromtimestamp(potential_escrow_tx['blocktime']).strftime('%c')+' '+str(txid)+' '+str(potential_escrow_txid)
-                    return (True, potential_escrow_txid, details_log)
+                    return (True, potential_escrow_txid, escrow_epoch, details_log)
             except KeyError:
                 pass
-        return (False,'','')
+        return (False,'','','')

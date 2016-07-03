@@ -3,7 +3,7 @@
 What is bitsquare-proxy?
 ------------------------
 
-bitsquare-proxy is a python framework that communicates with a local java based bitsquare client using py4j and with an external bitcore server over https in order to enable an extended set of features.
+bitsquare-proxy is a python framework that communicates with a local java based bitsquare client using py4j and with a remote bitcore server over https in order to enable an extended set of features.
 
 Added features should still follow the bitsquare protocol, or supply additional communication channels.
 
@@ -13,11 +13,9 @@ Status
 
 The code is in a *very early* stage, and it is actually only a snapshot of what I have been playing with, so consider it only for fun and hacking purposes at this moment.
 
-The early features are planned to be API for ticker, price/volume history, order book, and statistics of the bitsquare network. Since bitsquare is decentralized, API infrastructure would be offered by volunteers and the trust could be achieved using reputation, so automatic signature on the API is included. It is also clear that different nodes may see a different picture of the network.
+The early features are planned to be API for ticker, price/volume history, order book, and statistics of the bitsquare network. Since bitsquare is decentralised, API infrastructure would be offered by volunteers and the trust could be achieved using reputation, so automatic signature on the API is included. It is also clear that different nodes may see a different picture of the network.
 
 Further features would be trading bots and protocol hardening tests :)
-
-The API would be available on http://bitsquarek2n5map.onion
 
 
 Quickstart
@@ -33,13 +31,28 @@ Run bitsquare client - it will listen on local port 25333.
 
 To find the trades history.
 
-    $ python check_all.py
+    $ python check_all.py > history_trades.txt
+    $ cat history_trades.txt | sort > snapshots/sorted_history_trades.txt
 
     # The script goes over all transactions entering the currently only 
     # arbitrator and checking which resulted in an escrow. For those, if a 
     # corresponding contract file exists, the details of the trade are 
     # printed out
+    # Prices are checked only for Fiat using a price snapshot of monthly
+    # sliding price per currency:
+    # https://api.bitcoinaverage.com/history/EUR/per_hour_monthly_sliding_window.csv
+    # a cronjob should monthly update those files. Currently supported
+    # the following currencies: AUD EUR NOK USD CNY GBP SEK
+    # Other currencies will have price 0.0 if contract marked as based on
+    # market.
+    # Trade logs with no details mean that the contract file is not available
+    # locally.
+    # If regenerate_ticker is True snapshots/unsorted_ticker is generated
+    # In order to generate the sorted ticker:
+
+    $ cat snapshots/unsorted_ticker | sort > snapshots/ticker
     
+
 To generate the price ticker.
 
     $ python bitsquare_proxy.py
@@ -60,6 +73,7 @@ To generate the price ticker.
     # to determine if it got resulted in an escrow.
     # An entry log containing real time calculated price is printed with
     # a signature.
+    # The ticker file is updated with latest trade: snapshots/ticker
 
 
 License
@@ -81,4 +95,3 @@ About
 https://github.com/metabit
 
 Donations (and signatures): 1MetabitMKKGcYZy8YieDHenjjoMxHNAgW
-

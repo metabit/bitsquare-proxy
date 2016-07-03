@@ -34,7 +34,7 @@ offers_per_currency={}
 current_total_offers=0
 prev_total_offers=0
 
-for t in range(100000):
+while True:
     offers = gateway.entry_point.getOffers()
     # zero current active set
     current_active_offers_fee_tx_set=set()
@@ -79,9 +79,14 @@ for t in range(100000):
         print prev_total_offers,'=>',current_total_offers
 
     for txid in diff:
-        (accepted,escrow_txid,details_log) = bcheck.was_offer_accepted(txid)
+        (accepted, escrow_txid, escrow_epoch, details_log)=bcheck.was_offer_accepted(txid)
         if accepted:
-            print "Offer Accepted:", txid, details_log
+            trade_log,sign_log,trade_d=get_log(txid, escrow_epoch)
+            print "Offer Accepted:", txid, details_log, trade_log ,sign_log
+            entry=trade_d['epoch']+' '+trade_d['price']+' '+trade_d['currencyCode']+' '+trade_d['direction']+' '+trade_d['txid']
+            f=open('snapshots/ticker','a')
+            f.write(entry)
+            f.close()
 
     prev_total_offers=current_total_offers
     prev_active_offers_fee_tx_set=current_active_offers_fee_tx_set
