@@ -50,7 +50,7 @@ To find the trades history.
     # If regenerate_ticker is True snapshots/unsorted_ticker is generated
     # In order to generate the sorted ticker:
 
-    $ cat snapshots/unsorted_ticker | sort > snapshots/ticker
+    $ cat snapshots/unsorted_ticker | sort | uniq > snapshots/ticker
     
 
 To generate the price ticker.

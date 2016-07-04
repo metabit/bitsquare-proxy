@@ -16,7 +16,7 @@ from retrieve_details import get_log
 from bit_utils import butils
 import simplejson
 
-arbitrator_addr='1FdFzBazmHQxbUbdCUJwuCtR37DrZrEobu'
+arbitrator_addrs='1FdFzBazmHQxbUbdCUJwuCtR37DrZrEobu,19xdeiQM2Hn2M2wbpT5imcYWzqhiSDHPy4'
 get_a_fresh_tx_list=False
 regenerate_ticker=True
 
@@ -24,8 +24,10 @@ regenerate_ticker=True
 bu=butils()
 bchk=blockchain_checks()
 
+txid_list=[]
 if get_a_fresh_tx_list:
-    txid_list=bu.get_addr_tx_list(arbitrator_addr)
+    for arbitrator_addr in arbitrator_addrs.split(','):
+        txid_list+=bu.get_addr_tx_list(arbitrator_addr)
     sorted_txid_list=bu.sort_tx_list(txid_list)
 
     f=open('sorted_txid_list.txt', 'w')
