@@ -38,7 +38,7 @@ f=open('sorted_txid_list.txt', 'r')
 sorted_txid_list=simplejson.load(f)
 f.close()
 
-for txid in sorted_txid_list[-500:]: # just the last 500 tx
+for txid in sorted_txid_list[:]:
     (accepted, escrow_txid, escrow_epoch, details_log)=bchk.was_offer_accepted(txid)
     if accepted:
         trade_log,sign_log,trade_d=get_log(txid, escrow_epoch)

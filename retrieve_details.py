@@ -41,7 +41,7 @@ def get_price(currency, direction, epoch):
         # as token take a date with full hour string - no minutes and seconds
         token_date_str=datetime.datetime.utcfromtimestamp(epoch-epoch%3600).strftime('%Y-%m-%d %H:')
         try:
-            f=open('online_prices/20160604-'+currency+'-per_hour_monthly_sliding_window.csv','r')
+            f=open('online_prices/20160706-'+currency+'-per_hour_monthly_sliding_window.csv','r')
             for line in f:
                 if line.startswith(token_date_str):
                     f.close()
