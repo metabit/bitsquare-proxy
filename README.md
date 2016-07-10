@@ -28,6 +28,13 @@ Compile bitsquare from https://github.com/metabit/bitsquare/ or simply add the f
 
 Run bitsquare client - it will listen on local port 25333.
 
+Install prerequisites:
+
+    $ pip install py4j
+    $ git clone https://github.com/petertodd/python-bitcoinlib.git
+    $ cd python-bitcoinlib
+    $ sudo python setup.py install
+    $ replace the bitcore server address with your preferred one in bit_utils.py
 
 To find the trades history.
 
