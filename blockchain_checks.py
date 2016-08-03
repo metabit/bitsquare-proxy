@@ -39,6 +39,8 @@ class blockchain_checks:
             try:
                 # the output must be spent
                 potential_escrow_txid=vout['spentTxId']
+                if potential_escrow_txid == None:
+                    return (False,'','','')
                 potential_escrow_tx=self.bu.get_tx(potential_escrow_txid)
                 # observe the outputs of each of the above
                 if self.is_escrow(potential_escrow_txid):

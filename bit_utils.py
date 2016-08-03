@@ -34,7 +34,10 @@ class butils:
         return addrbytes[-4:] == sha256(sha256(addrbytes[:-4]).digest()).digest()[:4]
 
     def validate_txid(self, txid):
-        return len(txid)==64 and all(c in '0123456789abcdefABCDEF' for c in txid)
+        try:
+            return len(txid)==64 and all(c in '0123456789abcdefABCDEF' for c in txid)
+        except TypeError:
+            return False
 
     def get_data(self, url):
         # try network
