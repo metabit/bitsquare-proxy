@@ -13,13 +13,14 @@
 
 import sys
 import ssl
-import urllib2, json
+import json
 import time
 import random
 from bitcoin import base58
 from hashlib import sha256
+from urllib2 import Request, urlopen, HTTPError, URLError
 
-url_base = "https://bitcore/insight-api/"
+url_base = "https://blockexplorer.com/api/"
 
 tx_cache_dict={}
 max_dict_size=10000
@@ -37,13 +38,13 @@ class butils:
 
     def get_data(self, url):
         # try network
-        req = urllib2.Request(url)
+        req = Request(url)
         gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
         while (1):
             try:
-                response = urllib2.urlopen(req, context=gcontext)
+                response = urlopen(req, context=gcontext)
                 break
-            except urllib2.HTTPError, urllib2.URLError:
+            except HTTPError, URLError:
                 time.sleep(1)
         data = json.loads(response.read())
         return data
