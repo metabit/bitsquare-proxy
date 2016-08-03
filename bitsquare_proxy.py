@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python
 
 #################################################
 #                                               #
@@ -14,6 +14,7 @@
 from time import sleep
 from py4j.java_gateway import JavaGateway
 from json import dumps
+from retrieve_details import get_log
 import blockchain_checks
 
 # FIXME:
